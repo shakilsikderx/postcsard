@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f8f8f8;
+        }
+
+        .postcard {
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .postcard:hover {
+            transform: scale(1.05);
+        }
+
+        .postcard img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .postcard h2 {
+            color: #333;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .postcard p {
+            color: #666;
+            font-size: 1.1em;
+            margin: 0;
+        }
+
+        .postcard a {
+            color: #4285f4;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .postcard a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="postcard-container">
+        <!-- Post details will be dynamically inserted here -->
+        <script>
+            // Replace 'YOUR_BLOGGER_API_KEY' and 'YOUR_BLOG_ID' with your actual API key and blog ID
+            const apiKey = 'AIzaSyAVGa-klMpb86usS-nHXT0BTnTN8CITzKA';
+            const blogId = '203822220230753593';
+            const postUrl = 'https://taqlidalquran.blogspot.com/2023/11/hey-you-wrote-only-one-that-was-on.html'; // Replace with the actual post URL
+
+            const apiUrl = `https://www.googleapis.com/blogger/v3/blogs/${blogId}/posts/byurl?url=${postUrl}&key=${apiKey}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const postcardContainer = document.querySelector('.postcard-container');
+                    
+                    const postTitle = data.title;
+                    const postThumbnailUrl = data.images ? data.images[0].url : 'default-thumbnail.jpg';
+
+                    const postcardHTML = `
+                        <div class="postcard">
+                            <img src="${postThumbnailUrl}" alt="${postTitle}">
+                            <h2>${postTitle}</h2>
+                            <p>Read more <a href="${postUrl}" target="_blank">here</a></p>
+                        </div>
+                    `;
+
+                    postcardContainer.innerHTML = postcardHTML;
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        </script>
+    </div>
+</body>
+</html>
